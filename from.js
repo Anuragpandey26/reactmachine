@@ -4,7 +4,6 @@ function SimpleForm() {
   const [email, setEmail] = useState('');
   const [gender, setGender] = useState('');
   const handleSubmit = (e) => {
-    e.preventDefault();
     if (!name) {
       alert('Name is required');
       return;
