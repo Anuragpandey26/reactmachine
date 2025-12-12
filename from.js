@@ -1,59 +1,63 @@
-import { useState } from 'react';
-function SimpleForm() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [gender, setGender] = useState('');
-  const handleSubmit = (e) => {
-    if (!name) {
-      alert('Name is required');
-      return;
+import { useState } from "react";
+export default function FromApp(){
+    const [name,setName]=useState('')
+    const [email,setEmail]=useState('')
+    const [gender,setGender]=useState('')
+    const handleSubmit=()=>{
+         if(!name){
+            alert("the name is required")
+         }
+         if(!email){
+            alert("the name is required")
+         }
+         if(!gender){
+            alert("the name is required")
+         }
+         alert(`from submitted ${name} ${email} ${gender}`)
+         setName('')
+         setEmail('')
+         setGender('')
     }
-    if (!email) {
-      alert('Email is required');
-      return;
-    }
-    if (!gender) {
-      alert('gender is required');
-      return;
-    }
-    alert(`Submitted Successfully Name: ${name} Email: ${email} Gender: ${gender}`);
-    setName('');
-    setEmail('');
-    setMessage('');
-  };
-  return (
-    <div>
-      <h2>Contact Form</h2>
-      <form onSubmit={handleSubmit}>
+    return(
         <div>
-          <label>Name: </label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+            <form onSubmit={handleSubmit}>
+                <label> name:</label>
+                <input
+                 type='text'
+                  value={name}
+                 placeholder="enter the name"
+                 onChange={(e)=>setName(e.target.value)}
+                />
+                <br></br>
+                <label> email:</label>
+                <input
+                 type='email'
+                  value={email}
+                 placeholder="enter the email"
+                 onChange={(e)=>setEmail(e.target.value)}
+                />
+                <br></br>
+                <div>
+                <label>gender:</label>
+                <input
+                 type='radio'
+                 name ='male'
+                 value='male'
+                 checked={gender==='male'}
+                 placeholder="enter the gender"
+                 onChange={(e)=>setGender(e.target.value)}
+                />Male
+                <input
+                 type='radio'
+                  name='female'
+                  value='female'
+                 checked={gender==='female'}
+                 placeholder="enter the gender"
+                 onChange={(e)=>setGender(e.target.value)}
+                />Female
+                </div>
+                <button type='submit'>submit</button>
+            </form>
         </div>
-        <br />
-        <div>
-          <label>Email: </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <br />
-        <div>
-          <label>gender: </label><br />
-          <select onChange={(e)=>setGender(e.target.value)}>
-            <option value="male">male</option>
-            <option value='female'>female</option>
-          </select>
-        </div>
-        <br/>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  );
-}
-export default SimpleForm;
+    );
+};
