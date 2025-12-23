@@ -1,54 +1,66 @@
 import { useState } from "react";
-function TodoApp() {
+
+function TodoApp(){
   const [todos, setTodos] = useState([]);
   const [input, setInput] = useState("");
-  const [editIndex, setEditIndex] = useState(null);
   const handleAdd = () => {
-    if (input.trim() === "") return;
-    if (editIndex !== null) {
-      const updatedTodos = [...todos];
-      updatedTodos[editIndex] = input;
-      setTodos(updatedTodos);
-      setEditIndex(null);
-    } else {
-      setTodos([...todos, input]);
-    }
+    const trimmed = input.trim();
+    if (!trimmed) return;
+    setTodos([...todos, { text: trimmed, completed: false }]);
     setInput("");
-  };
-  const handleEdit = (index) => {
-    setInput(todos[index]);
-    setEditIndex(index);
   };
   const handleDelete = (index) => {
     const updatedTodos = [...todos];
-    updatedTodos.splice(index, 1);
+    updatedTodos.splice(index, 1); 
     setTodos(updatedTodos);
-    if (editIndex === index) {
-      setEditIndex(null);
-    }
   };
+  const handleToggle=(index)=>{
+    const updatedTodos = [...todos];
+    updatedTodos[index] = {
+      ...updatedTodos[index],
+      completed:!updatedTodos[index].completed
+    };
+    setTodos(updatedTodos);
+  };
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") handleAdd();
+  };
+
   return (
     <div>
       <h1>Todo App</h1>
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Enter todo"
-      />
-      <button onClick={handleAdd}>
-        {editIndex !== null ? "Update" : "Add"}
-      </button>
+
+      <div>
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyPress={handleKeyPress}
+          placeholder="Enter todo"
+        />
+        <button onClick={handleAdd}>Add</button>
+      </div>
+
       <ul>
         {todos.map((todo, index) => (
           <li key={index}>
-            {todo}{" "}
-            <button onClick={() => handleEdit(index)}>Edit</button>{" "}
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => handleToggle(index)}
+            />
+            <span style={{ textDecoration: todo.completed ? "line-through" : "none" }}>
+              {todo.text}
+            </span>
             <button onClick={() => handleDelete(index)}>Delete</button>
           </li>
         ))}
+        {todos.length === 0 && (
+          <li>No todos yet. Add one above!</li>
+        )}
       </ul>
     </div>
   );
 }
+
 export default TodoApp;
